@@ -6,6 +6,7 @@ import (
 	"github.com/BreakDown-CS/go-fiber-api/apperror"
 	"github.com/BreakDown-CS/go-fiber-api/config"
 	"github.com/BreakDown-CS/go-fiber-api/repository"
+	"github.com/BreakDown-CS/go-fiber-api/store"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -33,4 +34,8 @@ func Login(username, password string) (string, error) {
 	}
 
 	return signedToken, nil
+}
+
+func Logout(token string) {
+	store.Add(token)
 }

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"strings"
+
 	"github.com/BreakDown-CS/go-fiber-api/service"
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,5 +27,17 @@ func Login(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"access_token": token,
+	})
+}
+
+func Logout(c *fiber.Ctx) error {
+	auth := c.Get("Authorization")
+	parts := strings.Split(auth, " ")
+	token := parts[1]
+
+	service.Logout(token)
+
+	return c.JSON(fiber.Map{
+		"message": "logout success",
 	})
 }

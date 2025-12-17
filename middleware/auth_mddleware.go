@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/BreakDown-CS/go-fiber-api/config"
+	"github.com/BreakDown-CS/go-fiber-api/store"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -26,6 +27,12 @@ func Auth() fiber.Handler {
 		}
 
 		tokenStr := parts[1]
+
+		if store.IsBlacklisted(tokenStr) {
+			return c.Status(401).JSON(fiber.Map{
+				"message": "token revoked",
+			})
+		}
 
 		token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
 			return config.JwtSecret, nil

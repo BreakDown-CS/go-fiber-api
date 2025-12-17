@@ -17,4 +17,5 @@ func Register(app *fiber.App) {
 	protected := app.Group("/api", middleware.Auth())
 
 	protected.Get("/users", handler.GetUsers)
+	protected.Post("/logout", handler.Logout)
 }
