@@ -14,10 +14,7 @@ func Health(c *fiber.Ctx) error {
 func GetUsers(c *fiber.Ctx) error {
 	users, err := service.GetUsers()
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{
-			"message":  "Internal Server Error",
-			"Error : ": err.Error(),
-		})
+		return err
 	}
 
 	return c.Status(200).JSON(users)
