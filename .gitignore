@@ -1,0 +1,9 @@
+# go
+/bin/
+/vendor/
+
+# Env
+.Env
+
+# Air
+tmp/
