@@ -7,4 +7,5 @@ import (
 
 func Register(app *fiber.App) {
 	app.Get("/", handler.Health)
+	app.Get("/users", handler.GetUsers)
 }
