@@ -17,6 +17,10 @@ func Login(username, password string) (string, string, error) {
 		return "", "", apperror.New(401, "invalid username or password")
 	}
 
+	if password != dbPassword {
+		return "", "", apperror.New(401, "invalid username or password")
+	}
+
 	// TODO: Access Token
 	accessExp := time.Now().Add(15 * time.Minute)
 
@@ -26,7 +30,7 @@ func Login(username, password string) (string, string, error) {
 	}
 
 	accessToken, _ := jwt.NewWithClaims(
-		jwt.SigningMethodES256,
+		jwt.SigningMethodHS256,
 		accessClaims,
 	).SignedString(config.JwtSecret)
 
@@ -39,7 +43,7 @@ func Login(username, password string) (string, string, error) {
 	}
 
 	refreshToken, _ := jwt.NewWithClaims(
-		jwt.SigningMethodES256,
+		jwt.SigningMethodHS256,
 		refreshClaims,
 	).SignedString(config.JwtSecret)
 
@@ -74,7 +78,7 @@ func Refresh(refreshToken string) (string, error) {
 	}
 
 	newAccess, _ := jwt.NewWithClaims(
-		jwt.SigningMethodES256,
+		jwt.SigningMethodHS256,
 		claims,
 	).SignedString(config.JwtSecret)
 
